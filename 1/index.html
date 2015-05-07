@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>网址导航·简单网络tianhk.com</title>
+    <meta name="keywords" content="上网导航,网址大全,网址导航,简单导航,简单网络" />
+    <meta name="description" content="tianhk是一个小小的网址导航。" />
+    <title>网址导航 - tianhk.com</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -27,8 +29,11 @@
     <div class="row">
       <div class="col-md-1">
         <a href="http://www.tianhk.com">
-          <img src="http://7xioxg.com1.z0.glb.clouddn.com/logo_tianhk_index2_30%25.png" alt="tianhk.com_logo">
+          <img src="http://7xioxg.com1.z0.glb.clouddn.com/logo_tianhk_index2_30%25.png" alt="tianhk.com">
         </a>
+      </div>
+      <div class="col-md-2">
+        <a onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.tianhk.com');" href="javascript:;"></a>
       </div>
     </div>
 
@@ -47,11 +52,16 @@
 </form>
 
 </div>
-
-
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+      $("#searchText")[0].focus();
+      });
+
+      
+    </script>
   </body>
 </html>
