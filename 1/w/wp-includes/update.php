@@ -667,7 +667,7 @@ if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) &
 	return;
 }
 
-add_action( 'admin_init', '_maybe_update_core' );
+/*add_action( 'admin_init', '_maybe_update_core' );
 add_action( 'wp_version_check', 'wp_version_check' );
 add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
 
@@ -689,4 +689,4 @@ add_action( 'update_option_WPLANG', 'wp_clean_update_cache' , 10, 0 );
 
 add_action( 'wp_maybe_auto_update', 'wp_maybe_auto_update' );
 
-add_action( 'init', 'wp_schedule_update_checks' );
+add_action( 'init', 'wp_schedule_update_checks' );*/

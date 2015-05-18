@@ -1470,60 +1470,33 @@ function wp_get_original_referer() {
  * @return bool Whether the path was created. True if path already exists.
  */
 function wp_mkdir_p( $target ) {
-	$wrapper = null;
-
-	// Strip the protocol.
-	if( wp_is_stream( $target ) ) {
-		list( $wrapper, $target ) = explode( '://', $target, 2 );
+	// from php.net/mkdir user contributed notes
+	if ( substr($target, 0, 10) == 'saestor://' ) {
+		return true;
 	}
-
-	// From php.net/mkdir user contributed notes.
 	$target = str_replace( '//', '/', $target );
 
-	// Put the wrapper back on the target.
-	if( $wrapper !== null ) {
-		$target = $wrapper . '://' . $target;
-	}
-
-	/*
-	 * Safe mode fails with a trailing slash under certain PHP versions.
-	 * Use rtrim() instead of untrailingslashit to avoid formatting.php dependency.
-	 */
-	$target = rtrim($target, '/');
+	// safe mode fails with a trailing slash under certain PHP versions.
+	$target = rtrim($target, '/'); // Use rtrim() instead of untrailingslashit to avoid formatting.php dependency.
 	if ( empty($target) )
 		$target = '/';
 
 	if ( file_exists( $target ) )
 		return @is_dir( $target );
 
-	// We need to find the permissions of the parent folder that exists and inherit that.
-	$target_parent = dirname( $target );
-	while ( '.' != $target_parent && ! is_dir( $target_parent ) ) {
-		$target_parent = dirname( $target_parent );
-	}
-
-	// Get the permission bits.
-	if ( $stat = @stat( $target_parent ) ) {
-		$dir_perms = $stat['mode'] & 0007777;
-	} else {
-		$dir_perms = 0777;
-	}
-
-	if ( @mkdir( $target, $dir_perms, true ) ) {
-
-		/*
-		 * If a umask is set that modifies $dir_perms, we'll have to re-set
-		 * the $dir_perms correctly with chmod()
-		 */
-		if ( $dir_perms != ( $dir_perms & ~umask() ) ) {
-			$folder_parts = explode( '/', substr( $target, strlen( $target_parent ) + 1 ) );
-			for ( $i = 1, $c = count( $folder_parts ); $i <= $c; $i++ ) {
-				@chmod( $target_parent . '/' . implode( '/', array_slice( $folder_parts, 0, $i ) ), $dir_perms );
-			}
-		}
-
+	// Attempting to create the directory may clutter up our display.
+	if ( @mkdir( $target ) ) {
+		$stat = @stat( dirname( $target ) );
+		$dir_perms = $stat['mode'] & 0007777;  // Get the permission bits.
+		@chmod( $target, $dir_perms );
 		return true;
+	} elseif ( is_dir( dirname( $target ) ) ) {
+			return false;
 	}
+
+	// If the above failed, attempt to create the parent node, then try again.
+	if ( ( $target != '/' ) && ( wp_mkdir_p( dirname( $target ) ) ) )
+		return wp_mkdir_p( $target );
 
 	return false;
 }
@@ -1791,6 +1764,10 @@ function wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . 'files';
 		}
 	}
+
+	// for SAE
+	$dir = 'saestor://wordpress/uploads';
+	$url = 'http://' . $_SERVER['HTTP_APPNAME'] . '-wordpress.stor.sinaapp.com/uploads';
 
 	$basedir = $dir;
 	$baseurl = $url;
@@ -4421,6 +4398,15 @@ function wp_find_hierarchy_loop_tortoise_hare( $callback, $start, $override = ar
 	}
 
 	return false;
+}
+
+
+// for SAE
+if ( !function_exists('utf8_encode') ) {
+	function utf8_encode($str) {
+		$encoding_in = mb_detect_encoding($str);
+		return mb_convert_encoding($str, 'UTF-8', $encoding_in);
+	}
 }
 
 /**
