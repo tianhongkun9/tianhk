@@ -1932,11 +1932,11 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 	clearstatcache();
 
 	// Set correct file permissions
-	$stat = @ stat( dirname( $new_file ) );
+/*	$stat = @ stat( dirname( $new_file ) );
 	$perms = $stat['mode'] & 0007777;
 	$perms = $perms & 0000666;
 	@ chmod( $new_file, $perms );
-	clearstatcache();
+	clearstatcache();*/
 
 	// Compute the URL
 	$url = $upload['url'] . "/$filename";
