@@ -373,3 +373,8 @@ add_filter( 'pre_site_transient_update_plugins', create_function( '$b', "return 
  */
 remove_action( 'load-update-core.php', 'wp_update_themes' );
 add_filter( 'pre_site_transient_update_themes', create_function( '$c', "return null;" ) );
+
+//找回上传设置
+if(get_option('upload_path')=='wp-content/uploads' || get_option('upload_path')==null) {
+	update_option('upload_path',WP_CONTENT_DIR.'/uploads');
+}
