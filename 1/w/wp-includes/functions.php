@@ -1471,7 +1471,6 @@ function wp_get_original_referer() {
  */
 function wp_mkdir_p( $target ) {
 
-	return true;
 	$wrapper = null;
 
 	// Strip the protocol.
