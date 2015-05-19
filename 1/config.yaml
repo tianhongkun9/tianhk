@@ -2,4 +2,5 @@ name: tianhk
 version: 1
 
 handle:
-- errordoc: 404  /404.html //如果出现404错误，则返回404.html这个页面
+- errordoc: 404 /path/404.html
+- errordoc: 403 /path/403.html
