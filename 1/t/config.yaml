@@ -6,4 +6,4 @@ version: 1
 # schedule: every 43 mins
 # timezone: Beijing
 handle:
-- rewrite: if(!is_dir() && !is_file()) goto "index.php?%{QUERY_STRING}"
+- rewrite: if(!is_dir() && !is_file()) goto "?%{QUERY_STRING}"
