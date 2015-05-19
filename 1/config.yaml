@@ -2,5 +2,5 @@ name: tianhk
 version: 1
 
 handle:
-- errordoc: 404 /path/404.html
-- errordoc: 403 /path/403.html
+- errordoc: 404 /error/404.html
+- errordoc: 403 /error/403.html
